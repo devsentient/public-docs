@@ -1,2 +1,2 @@
-# public-docs
-Public documentation to guide users in deploying the Shakudo Platform
+# Overview
+Public documentation for deploying the Shakudo Platform

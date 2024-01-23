@@ -1,27 +1,31 @@
 const { Client } = require("@notionhq/client");
 const { NotionToMarkdown } = require("notion-to-md");
 const fs = require('fs');
-const readline = require('readline');
 
-// Pass in file of notion page ids
-// i.e. node notion-to-md.js notion_pages.in
-// Pass second argument to store output in a spearate path (default is current)
+// Pass in notion page id, output directory, and output name as a command line argument
+// i.e. node notion-to-md.js 082ae7114ae54fc88066829602f32f2b ../docs/ on-prem-docs
 
+// Ensure the notion page passed in is connected to a notion integration 
+// Copy and paste the integration secret api key here
 const notionKey = "secret_Jum3rGSo5AkM5yscH62uw5kXdIENNh0mdmYLuG2QnYd";
 var args = process.argv.slice(2);
 
-console.log("Passed in args: " + args);
+console.log("Passed in args: " + args + "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
-if (args.length == 0) {
-    console.log("ERROR: Pass in file of notion page ids as arg i.e. node notion-to-md.js notion_pages.in");
+if (args.length < 3) {
+    console.log("ERROR: Pass in the id of notion page, output directory, and output name i.e. node notion-to-md.js 082ae7114ae54fc88066829602f32f2b ../docs/ on-prem-docs");
     return;
 } 
 
-const notion_ids_file = args[0];
+const page_id = args[0];
+const output_dir = args[1];
+const output_name = args[2];
 
-if (!fs.existsSync(args[0])) {
-    console.log(`ERROR: File ./${notion_ids_file} does not exist`);
-    return;
+try {
+  fs.lstatSync(output_dir).isDirectory();
+} catch (e) {
+  console.log(`ERROR: Directory ./${output_dir} does not exist`);
+  return;
 }
 
 const notion = new Client({
@@ -31,27 +35,17 @@ const notion = new Client({
 // passing notion client to the option
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
-async function processLineByLine() {
-    const fileStream = fs.createReadStream(notion_ids_file);
-    const rl = readline.createInterface({
-      input: fileStream,
-      crlfDelay: Infinity
-    });
+
+
+(async () => {
+  const mdblocks = await n2m.pageToMarkdown(page_id);
+  const mdString = n2m.toMarkdownString(mdblocks).parent;
+  const output_path = output_dir + "/" + output_name + '.md'
+  fs.writeFile(output_path, mdString, (err) => {
   
-    for await (const line of rl) {
-      let current_id = line;
+      // In case of a error throw err.
+      if (err) throw err
+      else console.log("Successfully saved .md file: " + output_path);
+  })
+})();
 
-      (async () => {
-        const mdblocks = await n2m.pageToMarkdown(current_id);
-        const mdString = n2m.toMarkdownString(mdblocks).parent;
-        const output_file = (args.length >= 2 && fs.existsSync(args[1]) ? args[1] + "/" : "") + current_id + '.md'
-        fs.writeFile(output_file, mdString, (err) => {
-        
-            // In case of a error throw err.
-            if (err) throw err;
-        })
-      })();
-    }
-}
-
-processLineByLine()

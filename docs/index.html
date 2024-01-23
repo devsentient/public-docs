@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>Shakudo Documentation</title>
+  <link rel="icon" href="images/shakudo-logo.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="description" content="Description">
+  <meta name="Shakudo Public Documentation" content="Public deployment guide for the Shakudo platform.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
 </head>
@@ -12,10 +13,36 @@
   <div id="app"></div>
   <script>
     window.$docsify = {
-      name: '',
-      repo: ''
+      name: 'Shakudo Docs',
+      loadSidebar: true,
+      loadNavbar: false,
+      subMaxLevel: 1,
+      footer: {
+        copy: '<span>&copy; 2024 Shakudo -</span>',
+        auth: 'Toronto, CA',
+        pre: '<hr/>',
+        style: 'text-align: right;',
+        class: 'className',
+      },
+      hideCode: {
+        scroll: false, // Enable scrolling
+        height: 300 // Max height
+      }
     }
   </script>
+
+  <!-- Copy to clipboard for code blocks: -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
+
+  <!-- Pagination -->
+  <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
+
+  <!-- Footer -->
+  <script src="//unpkg.com/docsify-footer-enh/dist/docsify-footer-enh.min.js"></script>
+
+  <!-- Hide code block option -->
+  <script src="https://unpkg.com/docsify-hide-code"></script>
+
   <!-- Docsify v4 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
 </body>
