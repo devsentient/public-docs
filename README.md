@@ -1,2 +1,2 @@
-# public-docs
-Public documentation to guide users in deploying the Shakudo Platform
+# README
+[Public documentation page](https://docs.hyperplane.dev/public-docs/) to guide users in deploying the Shakudo Platform.
