@@ -1,38 +1,38 @@
 # Shakudo Deployment and Security Documentation - Azure - Jan 4, 2024 Update
 
-# Deployment
+## **Deployment**
 
-## Azure permissions for Shakudo
+### Azure permissions for Shakudo
 
 Typically, the a **Contributor** role gives sufficient permissions to stand up the Shakudo platform from scratch, in a new subscription on Azure. For a more detailed list of permissions for a limited contributor role, please see the following page, or see [Azure docs](https://learn.microsoft.com/en-us/azure/aks/concepts-identity#aks-service-permissions) for reference.
 
 [Permissions for Shakudo installation in Azure](Other/shakudo-install-perm.md)
 
-## Required Azure Resources
+### Required Azure Resources
 
-### Kubernetes Environment Assumptions
+#### Kubernetes Environment Assumptions
 
 The resource specification below makes the following assumptions about the existing setup:
 
 - Azure cluster is not reachable from the outside (using an internal VNet)
 - Dashboard login portal exposed via internal URL only accessible via VPN (this is optional, depending on your organization’s architecture)
 
-### Load Balancer
+#### Load Balancer
 
 The EKS cluster requires the ability to create a K8s `svc` with `type: LoadBalancer` that triggers the creation of an Azure Internal load balancer (within the VNet) and an External IP assignment for the K8s service, or has the permissions to use an existing private subnet.
 
-### DNS for a URL to access your platform
+#### DNS for a URL to access your platform
 
 Two settings will be required to successfully access the platform through the browser:
 
 - A new `A` type record in the DNS settings for the domain (internal or external e.g., `shakudo.yourdomain.tld`) on which the platform will be exposed. Optionally, we can use the `[hyperplane.dev](http://hyperplane.dev)` domain owned by Shakudo, e.g.: `yourname.hyperplane.dev`
 - A valid SSL certificate with its private key for the above domain. Alternatively, we can use Let’s Encrypt to generate the certificates. The Let’s Encrypt option would require an additional service account, with permissions to add records to the internal domain or subdomain DNS, to be available to the AKS cluster during deployment.
 
-### Generic platform requirements
+#### Generic platform requirements
 
 AKS cluster (this already exists)
 
-### Namespaces
+#### Namespaces
 
 Shakudo platform requires the following namespaces where {prefix-} can be any prefix as required by the SRE team. These can either be created by our standard deployment scripts, or by your SRE team. 
 
@@ -54,19 +54,19 @@ Stack Components:
 - {prefix-}hyperplane-milvus
 - {prefix-}hyperplane-llm
 
-### Istio and the istio-system namespace
+#### Istio and the istio-system namespace
 
 Shakudo uses Istio to manage access to services running within the environment. If an existing deployment of Istio is already installed, the platform can be configured to leverage it. Otherwise, a new namespace called `istio-system` needs to be created, and Istio can be deployed as part of the standard platform deployment process.
 
 If Istio is not an option for access control and network traffic management, please let the Shakudo team know which ingress controller you use and we will define the appropriate configuration.
 
-## Node Pools
+### Node Pools
 
 ************Please see az CLI commands below to create each node pool************
 
 Estimated total CPU and RAM across all node pools for full use cases: 352 vCPU. 1.1TB RAM
 
-### Core platform node pools
+#### Core platform node pools
 
 A single node pool Standard_D16as_v4
 
@@ -80,7 +80,7 @@ az aks nodepool add \
         --os-type "Linux" \
         --mode "User" \
         --node-vm-size "Standard_D16as_v4" \
-        --node-count 7 \ # --min-count 0 --max-count 20 if you want to autoscale \
+        --node-count 7 \ ## --min-count 0 --max-count 20 if you want to autoscale \
         --max-pods 110 \
         --labels \
             hyperplane.dev/nodeType=hyperplane-pool \
@@ -89,7 +89,7 @@ az aks nodepool add \
 
 This configuration is assuming no autoscaling. It is possible to use a smaller node pool for the core platform and basic use cases without too many stack components. For example, `num-nodes=4` 
 
-### LLM use case specific requirements
+#### LLM use case specific requirements
 
 To begin with a minimal deployment involving only the core Shakudo platform with an LLM service, we can reduce the node pool to a size of 4 nodes:
 
@@ -144,7 +144,7 @@ az aks nodepool add \
             ondemand=true
 ```
 
-## Deployment Steps - New AKS Cluster and Subscription
+### Deployment Steps - New AKS Cluster and Subscription
 
 Note that the following steps are for a standard Shakudo deployment. For specific deployment instructions adapted to your environment and use case, please refer to the section above. **Shakudo has an automated script to run an installation. The details for each step are included for visibility.**
 
@@ -161,13 +161,13 @@ Note that the following steps are for a standard Shakudo deployment. For specifi
 2. Set up VNets and Subnets
     
     ```bash
-    		# default values can be change if you wish to customize
+    		## default values can be change if you wish to customize
         AKS_VNET=aks-${RESOURCE_GROUP}-vnet
         AKS_VNET_ADDRESS_PREFIX="10.0.0.0/8"
         AKS_VNET_SUBNET_DEFAULT=aks-subnet-default
         AKS_VNET_SUBNET_DEFAULT_PREFIX="10.240.0.0/16"
     
-        # Create Virtual Network & default Subnet
+        ## Create Virtual Network & default Subnet
         az network vnet create \
             -g ${RESOURCE_GROUP} \
             -n ${AKS_VNET} \
@@ -176,7 +176,7 @@ Note that the following steps are for a standard Shakudo deployment. For specifi
             --subnet-name ${AKS_VNET_SUBNET_DEFAULT} \
             --subnet-prefix ${AKS_VNET_SUBNET_DEFAULT_PREFIX} 
     
-        # Get Virtual Network default subnet id
+        ## Get Virtual Network default subnet id
         AKS_VNET_SUBNET_DEFAULT_ID=$(az network vnet subnet show \
             --resource-group ${RESOURCE_GROUP} \
             --vnet-name ${AKS_VNET} \
@@ -350,7 +350,7 @@ Note that the following steps are for a standard Shakudo deployment. For specifi
     https://docs.google.com/document/d/1OErYkXGtj2B4xpczC4YlEKfceYRHPXOeEiCGlHnL0u0/edit#heading=h.alh6qoup6p0c
     
 
-### Notes and issues you may face if your URL does not display the dashboard
+#### Notes and issues you may face if your URL does not display the dashboard
 
 1. Your `certs` may not be issued
     1. Check the Kubernetes `certs` resources, and ensure that the status is “Certificate is up to date and has not expired”. Some common issues with certs not being provisioned are the service account provided to the LetsEncrypt cluster issue may not have sufficient DNS permissions, or http might be blocked by firewall. 
@@ -359,7 +359,7 @@ Note that the following steps are for a standard Shakudo deployment. For specifi
 3. Ensure the jobs for PodSpecs and Default PlatformApps have completed successfully - the API version is important as older versions may not contain the resource files
 4. Check if the node-pools and nodes are created successfully, and all Shakudo main pods are in a healthy state. These critical pods include the hyperplane-dashboard, api-server, reconciler, postgresql-0, redis-0. 
 
-## Adding GPU Node Pools to AKS Cluster
+### Adding GPU Node Pools to AKS Cluster
 
 When adding a GPU node pools there are a few things to consider:
 
@@ -391,7 +391,7 @@ az aks nodepool add \
             ondemand=true
 ```
 
-## Process for Shakudo Software Updates
+### Process for Shakudo Software Updates
 
 Shakudo software updates are delivered through a set of new container images and a helm upgrade. To ensure proper governance and approvals, the following process is recommended:
 
@@ -403,35 +403,35 @@ Shakudo software updates are delivered through a set of new container images and
     3. Update scripts for the Shakudo platform (if any)
 4. Shakudo support team, in collaboration with the client SRE team, execute the update during a maintenance time window. Typically, no downtime is expected. If downtime is expected, the Shakudo support team will inform the client SRE team and coordinate an appropriate time to minimize business impact.
 
-### Container image scanning
+#### Container image scanning
 
 New Stack Components integrated by Shakudo, as well updates to existing Stack Components and Shakudo Core components, are delivered through container images.
 
 Images for all components of the Shakudo platform are hosted on our private repository on Google Container Registry, with vulnerability scanning for known security vulnerabilities and exposures. Images are automatically scanned images whenever they are pushed to the registry via Google’s Container Scanning API. All our images are Alpine, Debian, or Ubuntu based, which are all covered by Google Cloud’s Container Scanning API. The Shakudo team can provide the scan results for each image or provide you with a google cloud cli command to check. Alternatively, if you would like to do your own container scanning, Shakudo can provide the image URLs for images that need to be pulled and scanned. 
 
-### Security Incidents Requiring Updates
+#### Security Incidents Requiring Updates
 
 Shakudo runs periodic scans over container images and live clusters hosted within the Shakudo infrastructure, and monitors news feeds related to zero day vulnerabilities in components and libraries used by the Shakudo platform. When vulnerabilities are identified, Shakudo sends a notification to all clients with a timeline for a hot-fix that addresses the vulnerability and any immediate action that needs to be taken to protect the client’s systems from possible attacks.
 
 Once a hot-fix update is available, the standard update process described in [Process for Shakudo Software Updates](Shakudo%20Deployment%20and%20Security%20Documentation%20-%20Az%20e1353b5e3f1642eea2ba339eceadec14.md) is executed with condensed timelines to address the vulnerability in a timely manner.
 
-## Process for Kubernetes Version Updates
+### Process for Kubernetes Version Updates
 
 The Shakudo Platform has two types of K8s resource: 1) the Shakudo core components, which are delivered through the *shakudo-platform* Helm chart, and 2) K8s resources for scale-up workloads and Shakudo objects, which the Shakudo *api-server* and **********reconciler********** components create and manage. Therefore, to ensure the most seamless Shakudo environment update, it is best to check with the Shakudo team before performing a major version upgrade to your Kubernetes cluster.  
 
 Typically we require updates to the Shakudo platform app and chart version before the Kubernetes cluster is updated. 
 
-# Security
+## **Security**
 
-## Shakudo Platform Access Control
+### Shakudo Platform Access Control
 
-### Platform Access Control via SSO
+#### Platform Access Control via SSO
 
 The Shakudo platform uses Keycloak to simplify single sign-on with identity and access management. Currently supported identity providers are Google, Okta, and Azure AD. SSO can and should) be limited to your organization’s hosted domain. You can choose to additionally gate access such that the keycloak admin must approve each user before they are able to access the Shakudo dashboard. Please see our attached instructions for setting up Google as an Identity Provider (IDP) for Keycloak SSO. 
 
 [Shakudo Keycloak configuration guide](Shakudo%20Deployment%20and%20Security%20Documentation%20-%20Az%20e1353b5e3f1642eea2ba339eceadec14/Shakudo%20Keycloak%20configuration%20guide%20001b0b8393444823b4ea659460e23ed7.md) 
 
-### API Endpoints Access Control via JWT
+#### API Endpoints Access Control via JWT
 
 The only components exposed from within the Kubernetes cluster are the Istio Gateway and the Keycloak authentication endpoint. However, users can access private API endpoints within Shakudo using JWT tokens. 
 
@@ -447,7 +447,7 @@ curl --location 'https://yourdomain/llama2-13b/generate' \
 --data '{"inputs":"What is Deep Learning?","parameters":{"max_new_tokens":200}}'
 ```
 
-## **Azure AD Workload Identity and K8s** Service Account Mapping
+### **Azure AD Workload Identity and K8s** Service Account Mapping
 
 You may choose to extend the permissions of Kubernetes Service Accounts that are managed by Shakudo through the use of Azure AD Workload Identity. 
 
@@ -455,7 +455,7 @@ Workload Identity is a feature in AKS that is primarily used for enhancing secur
 
 All workloads on Shakudo (User Sessions, User Services, Pipeline Jobs, etc.) are compatible with Azure AD Workload Identity. Permissions for issuance of certificates for the cluster domain can also be done through Workload Identity. 
 
-## Shakudo Support Team Access Options
+### Shakudo Support Team Access Options
 
 When the Shakudo platform is deployed in your Azure tenancy, Shakudo offers a few options for our support team to access your cluster for ongoing updates, maintenance, and support. 
 
@@ -467,14 +467,14 @@ Option 2
 
 You can restrict access to your company’s employees exclusively, in which case the Shakudo team can provide support via Slack and screen sharing for both deployment and ongoing maintenance and support. 
 
-## Shakudo Platform Monitors
+### Shakudo Platform Monitors
 
 Shakudo tracks the following security related events:
 
 1. Keycloak events (including all login attempts)
 2. User actions on the platform
 
-### Keycloak Events
+#### Keycloak Events
 
 **Keycloak events** describe all events from user logins and attempts to log in to the platform. By default, Shakudo currently stores the following information for logins:
 
@@ -504,7 +504,7 @@ username:                   stella@shakudo.io
 
 redirect_uri:               https://yourdomain/oauth2/callback
 
-### User Actions on Shakudo
+#### User Actions on Shakudo
 
 **User actions** describe all user actions on the Shakudo platform after login and authentication, including the following:
 
@@ -543,11 +543,11 @@ Job_details:                None
 
 The mechanism to retrieve and push recent logins is the following: a scheduled private job that runs on the Shakudo platform retrieves Keycloak events and user actions at a pre-configured interval and pushed the data to an API endpoint (e.g. Splunk). The data can be formatted as a JSON array or a CSV string.
 
-# Known Limitations and Upcoming Platform Enhancements
+## **Known Limitations and Upcoming Platform Enhancements**
 
 Documented below are known limitations in our current release that we have identified based on customer feedback and industry trends. Below are the details of identified limitations and the features that will be introduced in the upcoming releases.
 
-### **1. Launching Workloads from Cloud Kubernetes to On-premises GPU machines**
+#### **1. Launching Workloads from Cloud Kubernetes to On-premises GPU machines**
 
 **Feature Request:** Users have expressed the need to seamlessly launch workloads from cloud Kubernetes environments to on-premises GPU clusters.
 
@@ -555,7 +555,7 @@ Documented below are known limitations in our current release that we have ident
 
 **Release Schedule:** This feature is on track for release in Q1 of 2024.
 
-### **2. Traffic Shaping and Canary Rollouts**
+#### **2. Traffic Shaping and Canary Rollouts**
 
 **Feature Request:** Users have requested enhanced control over traffic shaping and the ability to perform canary rollouts for user-created services.
 
@@ -563,7 +563,7 @@ Documented below are known limitations in our current release that we have ident
 
 **Release Schedule:** The release of this feature is planned for the next major update, scheduled for mid-January 2024. 
 
-### 3. **In-Cluster Pull-Through Cache for Workload Setup Acceleration**
+#### 3. **In-Cluster Pull-Through Cache for Workload Setup Acceleration**
 
 **Feature Enhancement:** To optimize the performance of pod creation, we are developing an in-cluster pull-through cache for images.
 
@@ -573,7 +573,7 @@ Documented below are known limitations in our current release that we have ident
 
 **Release Schedule:** This feature is scheduled for mid-January 2024.
 
-# Receiving Support During Deployment
+## **Receiving Support During Deployment**
 
 While we aspire to provide the best and most comprehensive documentation for deploying Shakudo on Azure, every environment is different and unexpected issues may arise during deployment. Rest assured that the Shakudo team is here to support you through the deployment and beyond. During deployment, you can use the following methods to contact the team and get support on any deployment related issues:
 

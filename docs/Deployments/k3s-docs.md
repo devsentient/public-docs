@@ -2,14 +2,14 @@
 
 This deployment guide is for on-premises / own datacenter deployments from a Windows workstation
 
-# **Prerequisites**
+## **Prerequisites**
 
 - Ports 22, 6443 and 443 are open and accessible on the host
 - User account `shakudo` created on the host, with SSH and password-less sudo access. The host machine can be a Ubuntu or RHEL bare metal or VM, and is referred to as “********************Ubuntu host machine”******************** in the document.
 - Installer machine with SSH access to host. The installer can be a Windows or Ubuntu machine, and is referred to as “********************Windows client machine”******************** in the document. The following instructions are written assuming a Windows client machine with a Linux-emulator — the commands for Linux are very similar.
 - Ensure you can see your GPUs with `nvidia smi` in your K3s host machine
 
-# Summary of D**eployment Steps**
+## **Summary of Deployment Steps**
 
 Below is a summary of steps to deploy the Shakudo platform on an on-prem host machine with Ubuntu 20.04 or RHEL. Additional details are in subsequent sections.
 
@@ -29,7 +29,7 @@ Below is a summary of steps to deploy the Shakudo platform on an on-prem host ma
 - Delete and recreate the istio-ingressgateway loadbalancer with the new private network IP.
 - Ensure network admin creates a DNS records for the new private IP and both base and wildcard domains
 
-# **Ubuntu host machine setup**
+## **Ubuntu host machine setup**
 
 1. **Install Docker:**
     
@@ -136,7 +136,7 @@ Below is a summary of steps to deploy the Shakudo platform on an on-prem host ma
     ```
     
 
-# **Windows client machine setup**
+## **Windows client machine setup**
 
 These steps are only required if your client machine is running Windows. For Linux, skip to “Install `helm` `kubectl` and `jq`".
 
@@ -261,7 +261,7 @@ Install `kcadm`
     ```
     
 
-# **Build steps**
+## **Build steps**
 
 ### **Create k3s cluster using k3sup**
 
@@ -292,7 +292,7 @@ Install `kcadm`
     ```
     
 
-### L**abel the cluster node**
+### **Label the cluster node**
 
 Run these commands from your Windows client machine
 
@@ -324,7 +324,7 @@ Run these commands from your Windows client machine
     ```
     
 
-### Download **the Shakudo helm chart from GitHub**
+### **Download the Shakudo helm chart from GitHub**
 
 - Clone the repo with http url
     
@@ -466,7 +466,7 @@ Run these commands from your Windows client machine
     ```
     
 
-# **System specs**
+## **System specs**
 
 - Ubuntu 20.04.6 or RHEL8
 - Nvidia driver-535-server

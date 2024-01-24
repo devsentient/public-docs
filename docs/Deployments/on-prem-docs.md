@@ -2,13 +2,13 @@
 
 This deployment guide is for on-premises / own datacenter deployments from a Windows workstation
 
-# **Prerequisites**
+## **Prerequisites**
 
 - Ports 22, 6443 and 443 are open and accessible on the host
 - User account `shakudo` created on the host, with SSH and password-less sudo access
 - Installer machine with SSH access to host
 
-# Summary of D**eployment Steps**
+## **Summary of Deployment Steps**
 
 Below is a summary of steps to deploy the Shakudo platform on an on-prem host machine. Additional details are in subsequent sections.
 
@@ -28,7 +28,7 @@ Below is a summary of steps to deploy the Shakudo platform on an on-prem host ma
 - Delete and recreate the istio-ingressgateway loadbalancer with the new private network IP.
 - Ensure network admin creates a DNS records for the new private IP and both base and wildcard domains
 
-# **Ubuntu host setup**
+## **Ubuntu host setup**
 
 1. **Install Docker:**
     
@@ -140,7 +140,7 @@ Below is a summary of steps to deploy the Shakudo platform on an on-prem host ma
     ```
     
 
-# **Tools required for Windows Installer machine**
+## **Tools required for Windows Installer machine**
 
 Install `putty`
 
@@ -257,7 +257,7 @@ Install `kcadm`
     ```
     
 
-# **Build steps**
+## **Build steps**
 
 ### **Create k3s cluster using k3sup**
 
@@ -471,7 +471,7 @@ Install `kcadm`
     ```
     
 
-# **System specs**
+## **System specs**
 
 - Ubuntu 20.04.6
 - Nvidia driver-535-server
