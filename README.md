@@ -1,5 +1,5 @@
 # Overview
-[Public documentation page](https://docs.hyperplane.dev/public-docs/) to guide users in deploying the Shakudo Platform. 
+[Public documentation page](https://docs.hyperplane.dev/public-docs/) to guide users in deploying the Shakudo Platform. Uses (docsify)[https://github.com/docsifyjs/docsify/] to generate the page. 
 
 # Adding additional documentation
 1. Clone this repository
@@ -32,5 +32,7 @@
         1. Place them anywhere in the `./docs` directory i.e. `./docs/Deployment/images` for images used by deployment pages.
         1. Ensure that the page that uses local content uses the link to these files/images relative to where the current page lies i.e. a markdown file in `./docs/Deployment` may want to use images by referencing `images/some_picture.png` which has an absolute path of `./docs/Deployment/images/some_picture.png`
 1. Upon merge to the main branch, any changes should be reflected within a few minutes and displayed on (the page)[https://docs.hyperplane.dev/public-docs]
+1. The notion export to markdown is not perfect and may contain formatting issues so make sure to fix these issues and/or edit the resulting markdown file.
 
-   
+# Testing Locally
+Follow the steps on the (docsify docs)[https://docsify.js.org/#/quickstart] to serve and test the page locally.
