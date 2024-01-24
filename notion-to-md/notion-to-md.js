@@ -7,7 +7,7 @@ const fs = require('fs');
 
 // Ensure the notion page passed in is connected to a notion integration 
 // Copy and paste the integration secret api key here
-const notionKey = "secret_Jum3rGSo5AkM5yscH62uw5kXdIENNh0mdmYLuG2QnYd";
+const notionKey = "your integration secret";
 var args = process.argv.slice(2);
 
 console.log("Passed in args: " + args + "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
