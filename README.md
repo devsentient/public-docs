@@ -1,5 +1,5 @@
 # Overview
-[Public documentation page](https://docs.hyperplane.dev/public-docs/) to guide users in deploying the Shakudo Platform. Uses (docsify)[https://github.com/docsifyjs/docsify/] to generate the page. 
+[Public documentation page](https://docs.hyperplane.dev/public-docs/) to guide users in deploying the Shakudo Platform. Uses [docsify](https://github.com/docsifyjs/docsify/) to generate the page. 
 
 # Adding additional documentation
 1. Clone this repository
