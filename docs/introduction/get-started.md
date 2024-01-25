@@ -3,7 +3,7 @@ These docs were created to guide users in deploying the Shakudo platform under d
 
 <div>
     <div class="container">
-        <a href="/#/deployments/on-prem-docs">
+        <a href="../#/deployments/on-prem-docs">
             <img class="env-img" src="introduction/images/on-prem.png" width="100" />
         </a>
         <div class="middle">
@@ -11,7 +11,7 @@ These docs were created to guide users in deploying the Shakudo platform under d
         </div>
     </div>
     <div class="container">
-        <a href="/#/deployments/azure-docs">
+        <a href="../#/deployments/azure-docs">
             <img class="env-img" src="introduction/images/azure.png" width="100" />
         </a>
         <div class="middle">
@@ -19,7 +19,7 @@ These docs were created to guide users in deploying the Shakudo platform under d
         </div>
     </div>
     <div class="container">
-        <a href="/#/deployments/gcp-docs">
+        <a href="../#/deployments/gcp-docs">
             <img class="env-img" src="introduction/images/gcp.png" width="100" />
         </a>
         <div class="middle">
@@ -27,7 +27,7 @@ These docs were created to guide users in deploying the Shakudo platform under d
         </div>
     </div>
     <div class="container">
-        <a href="/#/deployments/k3s-docs">
+        <a href="../#/deployments/k3s-docs">
             <img class="env-img" src="introduction/images/k3s.webp" width="72" />
         </a>
         <div class="middle">

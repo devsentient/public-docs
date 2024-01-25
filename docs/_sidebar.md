@@ -2,10 +2,10 @@
   - [Welcome](/introduction/welcome.md "Shakudo Docs")
   - [Get Started](/introduction/get-started.md "Shakudo Docs")
 - Deployments
-  - [On Prem](deployments/on-prem-docs.md "Shakudo Docs - On Prem Deployment")
-  - [Azure](deployments/azure-docs.md "Shakudo Docs - Azure Deployment")
-  - [GCP](deployments/gcp-docs.md "Shakudo Docs - GCP Deployment")
-  - [K3s](deployments/k3s-docs.md "Shakudo Docs - K3s Deployment")
+  - [On Prem](/deployments/on-prem-docs.md "Shakudo Docs - On Prem Deployment")
+  - [Azure](/deployments/azure-docs.md "Shakudo Docs - Azure Deployment")
+  - [GCP](/deployments/gcp-docs.md "Shakudo Docs - GCP Deployment")
+  - [K3s](/deployments/k3s-docs.md "Shakudo Docs - K3s Deployment")
 - Other
   - [Install Permissions](other/shakudo-install-perm.md "Shakudo Docs - Install Permissions")
   - [Keycloak Configuration](other/shakudo-keycloak-guide.md "Shakudo Docs - Keycloack Configuration")
