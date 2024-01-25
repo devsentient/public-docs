@@ -35,4 +35,4 @@
 1. The notion export to markdown is not perfect and may contain formatting issues so make sure to fix these issues and/or edit the resulting markdown file.
 
 # Testing Locally
-Follow the steps on the (docsify docs)[https://docsify.js.org/#/quickstart] to serve and test the page locally.
+Follow the steps on the [docsify docs](https://docsify.js.org/#/quickstart) to serve and test the page locally.
