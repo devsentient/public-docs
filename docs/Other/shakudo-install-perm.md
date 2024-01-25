@@ -1,4 +1,6 @@
-# Permissions for Shakudo installation in Azure
+# Shakudo installation in Azure
+
+## Permissions for Installation in Azure
 
 We will need permissions for the following to create and operate the cluster (see [Azure docs](https://learn.microsoft.com/en-us/azure/aks/concepts-identity#aks-service-permissions) for reference):
 

@@ -6,7 +6,7 @@
 
 Typically, the a **Contributor** role gives sufficient permissions to stand up the Shakudo platform from scratch, in a new subscription on Azure. For a more detailed list of permissions for a limited contributor role, please see the following page, or see [Azure docs](https://learn.microsoft.com/en-us/azure/aks/concepts-identity#aks-service-permissions) for reference.
 
-[Permissions for Shakudo installation in Azure](Other/shakudo-install-perm.md)
+[Permissions for Shakudo installation in Azure](other/shakudo-install-perm.md?id=permissions-for-installation-in-azure)
 
 ### Required Azure Resources
 
@@ -62,7 +62,7 @@ If Istio is not an option for access control and network traffic management, ple
 
 ### Node Pools
 
-************Please see az CLI commands below to create each node pool************
+*Please see az CLI commands below to create each node pool*
 
 Estimated total CPU and RAM across all node pools for full use cases: 352 vCPU. 1.1TB RAM
 
@@ -343,8 +343,9 @@ Note that the following steps are for a standard Shakudo deployment. For specifi
 6. Check your URL (`domain.root.dns`) too see your cluster is up (Can take `ttl` seconds to propagate) 
 7. Set up Keycloak and SSO with Google IDP using the guide below. Note that Shakudo has a script and Keycloak client config. These steps are written out for visibility. 
     
-    [Shakudo Keycloak configuration guide](Other/shakudo-keycloack-guide.md)
+    [Shakudo Keycloak Configuration Guide](other/shakudo-keycloak-guide?id=keycloak-configuration)
     
+
     If you would like to use Azure SSO instead, see the guide below.
     
     https://docs.google.com/document/d/1OErYkXGtj2B4xpczC4YlEKfceYRHPXOeEiCGlHnL0u0/edit#heading=h.alh6qoup6p0c
@@ -413,11 +414,11 @@ Images for all components of the Shakudo platform are hosted on our private repo
 
 Shakudo runs periodic scans over container images and live clusters hosted within the Shakudo infrastructure, and monitors news feeds related to zero day vulnerabilities in components and libraries used by the Shakudo platform. When vulnerabilities are identified, Shakudo sends a notification to all clients with a timeline for a hot-fix that addresses the vulnerability and any immediate action that needs to be taken to protect the client’s systems from possible attacks.
 
-Once a hot-fix update is available, the standard update process described in [Process for Shakudo Software Updates](Shakudo%20Deployment%20and%20Security%20Documentation%20-%20Az%20e1353b5e3f1642eea2ba339eceadec14.md) is executed with condensed timelines to address the vulnerability in a timely manner.
+Once a hot-fix update is available, the standard update process described in this section (**Process for Shakudo Software Updates**) is executed with condensed timelines to address the vulnerability in a timely manner.
 
 ### Process for Kubernetes Version Updates
 
-The Shakudo Platform has two types of K8s resource: 1) the Shakudo core components, which are delivered through the *shakudo-platform* Helm chart, and 2) K8s resources for scale-up workloads and Shakudo objects, which the Shakudo *api-server* and **********reconciler********** components create and manage. Therefore, to ensure the most seamless Shakudo environment update, it is best to check with the Shakudo team before performing a major version upgrade to your Kubernetes cluster.  
+The Shakudo Platform has two types of K8s resource: 1) the Shakudo core components, which are delivered through the *shakudo-platform* Helm chart, and 2) K8s resources for scale-up workloads and Shakudo objects, which the Shakudo *api-server* and *reconciler* components create and manage. Therefore, to ensure the most seamless Shakudo environment update, it is best to check with the Shakudo team before performing a major version upgrade to your Kubernetes cluster.  
 
 Typically we require updates to the Shakudo platform app and chart version before the Kubernetes cluster is updated. 
 
@@ -429,7 +430,7 @@ Typically we require updates to the Shakudo platform app and chart version befor
 
 The Shakudo platform uses Keycloak to simplify single sign-on with identity and access management. Currently supported identity providers are Google, Okta, and Azure AD. SSO can and should) be limited to your organization’s hosted domain. You can choose to additionally gate access such that the keycloak admin must approve each user before they are able to access the Shakudo dashboard. Please see our attached instructions for setting up Google as an Identity Provider (IDP) for Keycloak SSO. 
 
-[Shakudo Keycloak configuration guide](Shakudo%20Deployment%20and%20Security%20Documentation%20-%20Az%20e1353b5e3f1642eea2ba339eceadec14/Shakudo%20Keycloak%20configuration%20guide%20001b0b8393444823b4ea659460e23ed7.md) 
+[Shakudo Keycloak Configuration Guide](other/shakudo-keycloak-guide?id=keycloak-configuration) 
 
 #### API Endpoints Access Control via JWT
 
@@ -543,7 +544,7 @@ Job_details:                None
 
 The mechanism to retrieve and push recent logins is the following: a scheduled private job that runs on the Shakudo platform retrieves Keycloak events and user actions at a pre-configured interval and pushed the data to an API endpoint (e.g. Splunk). The data can be formatted as a JSON array or a CSV string.
 
-## **Known Limitations and Upcoming Platform Enhancements**
+## **Limitations and Upcoming Enhancements**
 
 Documented below are known limitations in our current release that we have identified based on customer feedback and industry trends. Below are the details of identified limitations and the features that will be introduced in the upcoming releases.
 
@@ -573,14 +574,14 @@ Documented below are known limitations in our current release that we have ident
 
 **Release Schedule:** This feature is scheduled for mid-January 2024.
 
-## **Receiving Support During Deployment**
+## **Support During Deployment**
 
 While we aspire to provide the best and most comprehensive documentation for deploying Shakudo on Azure, every environment is different and unexpected issues may arise during deployment. Rest assured that the Shakudo team is here to support you through the deployment and beyond. During deployment, you can use the following methods to contact the team and get support on any deployment related issues:
 
-************Slack:************ if a joint Slack channel has been established prior to starting deployment, the Shakudo support team will be available through the channel during business hours
+**Slack:** if a joint Slack channel has been established prior to starting deployment, the Shakudo support team will be available through the channel during business hours
 
-********************PagerDuty:******************** outside business hours, you can trigger a pager notification to our on-call customer success representative and on-call engineer by filling out [this](https://share.hsforms.com/1tuULD5lLQoyed2tP2DS4OQcpzhy) short form. **Make sure to select P0 as the urgency to trigger a pager.** Our on-call will then follow up within 30 minutes (usually less, but the SLA is 30 minutes) via Slack or email.
+**PagerDuty:** outside business hours, you can trigger a pager notification to our on-call customer success representative and on-call engineer by filling out [this](https://share.hsforms.com/1tuULD5lLQoyed2tP2DS4OQcpzhy) short form. **Make sure to select P0 as the urgency to trigger a pager.** Our on-call will then follow up within 30 minutes (usually less, but the SLA is 30 minutes) via Slack or email.
 
-************Email:************ you can send an email to *support@shakudo.io* and it will be received by multiple members of the support team. You can expect a quick response during business hours.
+**Email:** you can send an email to *support@shakudo.io* and it will be received by multiple members of the support team. You can expect a quick response during business hours.
 
-************Phone:************ you can call **‪**our ****corporate phone number *****(437) 783-5683‬* and expect a call back or follow up by email/slack within 24 hours.
+**Phone:** you can call our corporate phone number *(437)783-5683* and expect a call back or follow up by email/slack within 24 hours.

@@ -28,7 +28,7 @@ Below is a summary of steps to deploy the Shakudo platform on an on-prem host ma
 - Delete and recreate the istio-ingressgateway loadbalancer with the new private network IP.
 - Ensure network admin creates a DNS records for the new private IP and both base and wildcard domains
 
-## **Ubuntu host setup**
+## **Ubuntu Host Setup**
 
 1. **Install Docker:**
     
@@ -140,7 +140,7 @@ Below is a summary of steps to deploy the Shakudo platform on an on-prem host ma
     ```
     
 
-## **Tools required for Windows Installer machine**
+## **Windows Installer Required Tools**
 
 Install `putty`
 

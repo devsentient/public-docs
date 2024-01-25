@@ -1,4 +1,4 @@
-# Shakudo Keycloak configuration guide
+# Shakudo Keycloak Configuration Guide
 
 ## Keycloak configuration
 
