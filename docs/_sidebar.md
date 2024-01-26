@@ -1,5 +1,5 @@
 - Introduction
-  - [Welcome](/introduction/welcome.md "Shakudo Docs")
+  - [Welcome](/ "Shakudo Docs")
   - [Get Started](/introduction/get-started.md "Shakudo Docs")
 - Deployments
   - [On Prem](/deployments/on-prem-docs.md "Shakudo Docs - On Prem Deployment")
