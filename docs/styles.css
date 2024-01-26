@@ -1,7 +1,8 @@
 .container {
     position: relative;
-    width: 50%;
+    width: 100px;
     float: left;
+    margin-right: 50px;
 }
   
 .image {
@@ -22,6 +23,7 @@
     transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     text-align: center;
+    width: 140px;
 }
   
 .container:hover .image {
@@ -33,9 +35,9 @@
 }
   
 .text {
-    background-color: #BC561B;
+    background-color: #1b9ebc81;
     color: white;
-    font-size: 16px;
+    font-size: 12px;
     padding: 16px 32px;
 }
 
